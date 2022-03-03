@@ -16,35 +16,55 @@
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 </head>
 <body>
+
     <header class="with-background">
-        <div class="top-nav container">
+
+        <nav class="top-nav container">
             <div class="logo">Laravel Ecommerce</div>
             <ul>
-                <li><a href="#">Shop</a></li>
+                <li>
+                    <a href="{{ route('shop.index') }}">Shop</a>
+                </li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Blog</a></li>
-                <li><a href="#">Cart <span class="cart-count"><span>3</span></span></a></li>
+                <li>
+                    <a href="{{ route('cart.index') }}">
+                        Cart
+                        @if (Cart::instance('default')->count() > 0)
+                            <span class="cart-count">
+                                <span>{{ Cart::instance('default')->count() }}</span>
+                            </span>
+                        @endif
+                    </a>
+                </li>
             </ul>
-        </div> <!-- end top-nav -->
+        </nav>
+
         <div class="hero container">
             <div class="hero-copy">
                 <h1>Laravel Ecommerce Demo</h1>
                 <p>Includes multiple products, categories, a shopping cart and a checkout system with Stripe integration.</p>
                 <div class="hero-buttons">
                     <a href="#" class="button button-white">Blog Post</a>
-                    <a href="#" class="button button-white">GitHub</a>
+                    <a href="https://abdulrahman5648.github.io/abdulrahman5648/"
+                        class="button button-white"
+                        target="blank"
+                    >
+                        GitHub
+                    </a>
                 </div>
-            </div> <!-- end hero-copy -->
+            </div>
 
             <div class="hero-image">
                 <img src="img/macbook-pro-laravel.png" alt="hero image">
-            </div> <!-- end hero-image -->
-        </div> <!-- end hero -->
+            </div>
+        </div>
+
     </header>
 
     <div class="featured-section">
-
         <div class="container">
+
             <h1 class="text-center">Laravel Ecommerce</h1>
 
             <p class="section-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore vitae nisi, consequuntur illum dolores cumque pariatur quis provident deleniti nesciunt officia est reprehenderit sunt aliquid possimus temporibus enim eum hic.</p>
@@ -54,7 +74,7 @@
                 <a href="#" class="button">On Sale</a>
             </div>
 
-            {{-- <div class="tabs">
+         {{--   <div class="tabs">
                 <div class="tab">
                     Featured
                 </div>
@@ -64,55 +84,27 @@
             </div> --}}
 
             <div class="products text-center">
-                <div class="product">
-                    <a href="#"><img src="/img/macbook-pro.png" alt="product"></a>
-                    <a href="#"><div class="product-name">MacBook Pro</div></a>
-                    <div class="product-price">$2499.99</div>
-                </div>
-                <div class="product">
-                    <a href="#"><img src="/img/macbook-pro.png" alt="product"></a>
-                    <a href="#"><div class="product-name">MacBook Pro</div></a>
-                    <div class="product-price">$2499.99</div>
-                </div>
-                <div class="product">
-                    <a href="#"><img src="/img/macbook-pro.png" alt="product"></a>
-                    <a href="#"><div class="product-name">MacBook Pro</div></a>
-                    <div class="product-price">$2499.99</div>
-                </div>
-                <div class="product">
-                    <a href="#"><img src="/img/macbook-pro.png" alt="product"></a>
-                    <a href="#"><div class="product-name">MacBook Pro</div></a>
-                    <div class="product-price">$2499.99</div>
-                </div>
-                <div class="product">
-                    <a href="#"><img src="/img/macbook-pro.png" alt="product"></a>
-                    <a href="#"><div class="product-name">MacBook Pro</div></a>
-                    <div class="product-price">$2499.99</div>
-                </div>
-                <div class="product">
-                    <a href="#"><img src="/img/macbook-pro.png" alt="product"></a>
-                    <a href="#"><div class="product-name">MacBook Pro</div></a>
-                    <div class="product-price">$2499.99</div>
-                </div>
-                <div class="product">
-                    <a href="#"><img src="/img/macbook-pro.png" alt="product"></a>
-                    <a href="#"><div class="product-name">MacBook Pro</div></a>
-                    <div class="product-price">$2499.99</div>
-                </div>
-                <div class="product">
-                    <a href="#"><img src="/img/macbook-pro.png" alt="product"></a>
-                    <a href="#"><div class="product-name">MacBook Pro</div></a>
-                    <div class="product-price">$2499.99</div>
-                </div>
-            </div> <!-- end products -->
-
-            <div class="text-center button-container">
-                <a href="#" class="button">View more products</a>
+                @foreach ($products as $product)
+                    <div class="product">
+                        <a href="{{ route('shop.show', $product->slug) }}">
+                            <img src="{{ $product->image }}" alt="product">
+                        </a>
+                        <a href="{{ route('shop.show', $product->slug) }}">
+                            <div class="product-name">
+                                {{ $product->name }}
+                            </div>
+                        </a>
+                        <div class="product-price">{{ $product->price }}</div>
+                    </div>
+                @endforeach
             </div>
 
-        </div> <!-- end container -->
+            <div class="text-center button-container">
+                <a href="{{ route('shop.index') }}" class="button">View more products</a>
+            </div>
 
-    </div> <!-- end featured-section -->
+        </div>
+    </div>
 
     <div class="blog-section">
         <div class="container">
@@ -138,10 +130,9 @@
                 </div>
             </div>
         </div> <!-- end container -->
-    </div> <!-- end blog-section -->
+    </div>
 
     @include('partials.footer')
-
 
 </body>
 </html>

@@ -2,24 +2,24 @@
 
 @section('title', 'Checkout')
 
-@section('extra-css')
+@section('css')
 
 @endsection
 
 @section('content')
 
     <div class="container">
-
         <h1 class="checkout-heading stylish-heading">Checkout</h1>
         <div class="checkout-section">
             <div>
-                <form action="#">
+                <form action="#" id="payment-form">
                     <h2>Billing Details</h2>
 
                     <div class="form-group">
                         <label for="email">Email Address</label>
                         <input type="email" class="form-control" id="email" name="email" value="">
                     </div>
+
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="">
@@ -59,109 +59,199 @@
                         <label for="name_on_card">Name on Card</label>
                         <input type="text" class="form-control" id="name_on_card" name="name_on_card" value="">
                     </div>
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" value="">
-                    </div>
 
+                    {{-- stripe --}}
                     <div class="form-group">
-                        <label for="cc-number">Credit Card Number</label>
-                        <input type="text" class="form-control" id="cc-number" name="cc-number" value="">
-                    </div>
+                        <div id="payment-element">
 
-                    <div class="half-form">
-                        <div class="form-group">
-                            <label for="expiry">Expiry</label>
-                            <input type="text" class="form-control" id="expiry" name="expiry" placeholder="MM/DD">
-                        </div>
-                        <div class="form-group">
-                            <label for="cvc">CVC Code</label>
-                            <input type="text" class="form-control" id="cvc" name="cvc" value="">
-                        </div>
-                    </div> <!-- end half-form -->
+                            <!--Stripe.js injects the Payment Element-->
+
+                          </div>
+
+                          <button id="submit">
+
+                            <div class="spinner hidden" id="spinner"></div>
+
+                            <span id="button-text">Pay now</span>
+
+                          </button>
+
+                          <div id="payment-message" class="hidden"></div>
+                    </div>
 
                     <div class="spacer"></div>
 
                     <button type="submit" class="button-primary full-width">Complete Order</button>
-
-
                 </form>
             </div>
-
-
 
             <div class="checkout-table-container">
                 <h2>Your Order</h2>
 
                 <div class="checkout-table">
+                    @foreach (Cart::content() as $item)
                     <div class="checkout-table-row">
                         <div class="checkout-table-row-left">
-                            <img src="/img/macbook-pro.png" alt="item" class="checkout-table-img">
+                            <img src="{{ $item->model->image }}" alt="item" class="checkout-table-img">
                             <div class="checkout-item-details">
-                                <div class="checkout-table-item">MacBook Pro</div>
-                                <div class="checkout-table-description">15 inch, 1TB SSD, 32GB RAM</div>
-                                <div class="checkout-table-price">$2499.99</div>
+                                <div class="checkout-table-item">
+                                    {{ $item->model->name }}
+                                </div>
+                                <div class="checkout-table-description">
+                                    {{ $item->model->details }}
+                                </div>
+                                <div class="checkout-table-price">
+                                    {{ $item->model->price }}
+                                </div>
                             </div>
-                        </div> <!-- end checkout-table -->
+                        </div>
 
                         <div class="checkout-table-row-right">
-                            <div class="checkout-table-quantity">1</div>
-                        </div>
-                    </div> <!-- end checkout-table-row -->
-
-                    <div class="checkout-table-row">
-                        <div class="checkout-table-row-left">
-                            <img src="/img/macbook-pro.png" alt="item" class="checkout-table-img">
-                            <div class="checkout-item-details">
-                                <div class="checkout-table-item">MacBook Pro</div>
-                                <div class="checkout-table-description">15 inch, 1TB SSD, 32GB RAM</div>
-                                <div class="checkout-table-price">$2499.99</div>
+                            <div class="checkout-table-quantity">
+                                {{ $item->qty }}
                             </div>
-                        </div> <!-- end checkout-table -->
-
-                        <div class="checkout-table-row-right">
-                            <div class="checkout-table-quantity">1</div>
                         </div>
-                    </div> <!-- end checkout-table-row -->
-
-                    <div class="checkout-table-row">
-                        <div class="checkout-table-row-left">
-                            <img src="/img/macbook-pro.png" alt="item" class="checkout-table-img">
-                            <div class="checkout-item-details">
-                                <div class="checkout-table-item">MacBook Pro</div>
-                                <div class="checkout-table-description">15 inch, 1TB SSD, 32GB RAM</div>
-                                <div class="checkout-table-price">$2499.99</div>
-                            </div>
-                        </div> <!-- end checkout-table -->
-
-                        <div class="checkout-table-row-right">
-                            <div class="checkout-table-quantity">1</div>
-                        </div>
-                    </div> <!-- end checkout-table-row -->
-
-                </div> <!-- end checkout-table -->
+                    </div>
+                    @endforeach
+                </div>
 
                 <div class="checkout-totals">
                     <div class="checkout-totals-left">
                         Subtotal <br>
-                        Discount (10OFF - 10%) <br>
+                        {{-- Discount (10OFF - 10%) <br> --}}
                         Tax <br>
                         <span class="checkout-totals-total">Total</span>
 
                     </div>
 
                     <div class="checkout-totals-right">
-                        $7499.97 <br>
-                        -$750.00 <br>
-                        $975.00 <br>
-                        <span class="checkout-totals-total">$8474.97</span>
-
+                        {{ presentPrice($item->subtotal) }} <br>
+                        {{-- -$750.00 <br> --}}
+                        {{ presentPrice(Cart::tax()) }} <br>
+                        <span class="checkout-totals-total">
+                            {{ presentPrice(Cart::total()) }}
+                        </span>
                     </div>
-                </div> <!-- end checkout-totals -->
+                </div>
 
             </div>
-
-        </div> <!-- end checkout-section -->
+        </div>
     </div>
+@section('js')
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    // This is a public sample test API key.
+    // Don’t submit any personally identifiable information in requests made with this key.
+    // Sign in to see your own test API key embedded in code samples.
+    const stripe = Stripe("pk_test_51JVen0CvaRQNq9FWjLnIFnnPMlEHKQdI6S8mFEmgqdMi2S6t7QgNZEqReGAGkbjh4uTqnFfPoWk2eW8Lh4fOuzCx00gaieVfXE");
 
+    // The items the customer wants to buy
+    const items = [{ id: "xl-tshirt" }];
+
+    let elements;
+
+    initialize();
+    checkStatus();
+
+    document
+    .querySelector("#payment-form")
+    .addEventListener("submit", handleSubmit);
+
+    // Fetches a payment intent and captures the client secret
+    async function initialize() {
+    const { clientSecret } = await fetch("/create.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items }),
+    }).then((r) => r.json());
+
+    elements = stripe.elements({ clientSecret });
+
+    const paymentElement = elements.create("payment");
+    paymentElement.mount("#payment-element");
+    }
+
+    async function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+
+    const { error } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: "http://localhost:4242/public/checkout.html",
+        },
+    });
+
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
+    if (error.type === "card_error" || error.type === "validation_error") {
+        showMessage(error.message);
+    } else {
+        showMessage("An unexpected error occured.");
+    }
+
+    setLoading(false);
+    }
+
+    // Fetches the payment intent status after payment submission
+    async function checkStatus() {
+    const clientSecret = new URLSearchParams(window.location.search).get(
+        "payment_intent_client_secret"
+    );
+
+    if (!clientSecret) {
+        return;
+    }
+
+    const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
+
+    switch (paymentIntent.status) {
+        case "succeeded":
+        showMessage("Payment succeeded!");
+        break;
+        case "processing":
+        showMessage("Your payment is processing.");
+        break;
+        case "requires_payment_method":
+        showMessage("Your payment was not successful, please try again.");
+        break;
+        default:
+        showMessage("Something went wrong.");
+        break;
+    }
+    }
+
+    // ------- UI helpers -------
+
+    function showMessage(messageText) {
+    const messageContainer = document.querySelector("#payment-message");
+
+    messageContainer.classList.remove("hidden");
+    messageContainer.textContent = messageText;
+
+    setTimeout(function () {
+        messageContainer.classList.add("hidden");
+        messageText.textContent = "";
+    }, 4000);
+    }
+
+    // Show a spinner on payment submission
+    function setLoading(isLoading) {
+    if (isLoading) {
+        // Disable the button and show a spinner
+        document.querySelector("#submit").disabled = true;
+        document.querySelector("#spinner").classList.remove("hidden");
+        document.querySelector("#button-text").classList.add("hidden");
+    } else {
+        document.querySelector("#submit").disabled = false;
+        document.querySelector("#spinner").classList.add("hidden");
+        document.querySelector("#button-text").classList.remove("hidden");
+    }
+    }
+</script>
+@endsection
 @endsection
