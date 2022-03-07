@@ -26,3 +26,16 @@
         }).show();
     </script>
 @endif
+
+@if (count($errors) > 0)
+    <script>
+        new Noty({
+            type: 'error',
+            layout: "<?php echo $dir; ?>",
+            text: "Abdulrahman",
+            text:{{ $errors->first() }},
+            timeout: 2000,
+            killer: true
+        }).show();
+    </script>
+@endif

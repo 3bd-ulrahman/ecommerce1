@@ -1,5 +1,6 @@
 <?php
 
+use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Route;
 
@@ -17,13 +18,14 @@ Route::post('/saveForLater/switchToCart/{product}', 'SaveForLaterController@swit
 Route::delete('/saveForLater/{product}', 'SaveForLaterController@destroy')->name('saveForLater.destroy');
 
 
-Route::get('/checkout', 'CheckoutContoller@index')->name('checkout.index');
-Route::get('/checkout/store', 'CheckoutContoller@store')->name('checkout.store');
-
+Route::middleware('checkout')->name('checkout.')->group(function () {
+    Route::get('/checkout', 'CheckoutContoller@index')->name('index');
+    Route::post('/checkout/store', 'CheckoutContoller@store')->name('store');
+});
 
 Route::view('/thankyou', 'pages/thankyou');
 
 
 Route::get('test', function () {
-    return view('test');
+    return redirect();
 });

@@ -8,88 +8,97 @@
 
 @section('content')
 
-    <div class="container">
-        <h1 class="checkout-heading stylish-heading">Checkout</h1>
-        <div class="checkout-section">
-            <div>
-                <form action="#" id="payment-form">
-                    <h2>Billing Details</h2>
+<div class="container">
+    @if(count($errors) > 0)
+        <div class="spacer"></div>
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{!! $error !!}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <h1 class="checkout-heading stylish-heading">Checkout</h1>
+    <div class="checkout-section">
+        <div>
+            <form action="{{ route('checkout.store') }}" method="POST" id="payment-form">
+                @csrf
 
+                <h2>Billing Details</h2>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}"  required>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" value="{{ old('address') }}" required>
+                </div>
+
+                <div class="half-form">
                     <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" class="form-control" id="email" name="email" value="">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="province">Province</label>
+                        <input type="text" class="form-control" id="province" name="province" value="{{ old('province') }}" required>
+                    </div>
+                </div> <!-- end half-form -->
+
+                <div class="half-form">
+                    <div class="form-group">
+                        <label for="postalcode">Postal Code</label>
+                        <input type="text" class="form-control" id="postalcode" name="postalcode" value="{{ old('postalcode') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ old('phone') }}" required>
+                    </div>
+                </div>
+
+                <div class="spacer"></div>
+
+                <h2>Payment Details</h2>
+
+                <div class="form-group">
+                    <label for="name_on_card">Name on Card</label>
+                    <input type="text" class="form-control" id="name_on_card" name="name_on_card">
+                </div>
+
+                {{-- stripe --}}
+                <div class="form-group">
+                    <label for="card-element">
+                        Credit or debit card
+                    </label>
+                    <div id="card-element">
+                        <!-- a Stripe Element will be inserted here. -->
                     </div>
 
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="">
-                    </div>
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" value="">
-                    </div>
+                    <!-- Used to display form errors -->
+                    <div id="card-errors" role="alert"></div>
+                </div>
 
-                    <div class="half-form">
-                        <div class="form-group">
-                            <label for="city">City</label>
-                            <input type="text" class="form-control" id="city" name="city" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="province">Province</label>
-                            <input type="text" class="form-control" id="province" name="province" value="">
-                        </div>
-                    </div> <!-- end half-form -->
+                <div class="spacer"></div>
 
-                    <div class="half-form">
-                        <div class="form-group">
-                            <label for="postalcode">Postal Code</label>
-                            <input type="text" class="form-control" id="postalcode" name="postalcode" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone" value="">
-                        </div>
-                    </div> <!-- end half-form -->
+                <button type="submit" class="button-primary full-width" id="complete-order">
+                    Complete Order
+                </button>
+            </form>
+        </div>
 
-                    <div class="spacer"></div>
+        <div class="checkout-table-container">
 
-                    <h2>Payment Details</h2>
+            <h2>Your Order</h2>
 
-                    <div class="form-group">
-                        <label for="name_on_card">Name on Card</label>
-                        <input type="text" class="form-control" id="name_on_card" name="name_on_card" value="">
-                    </div>
-
-                    {{-- stripe --}}
-                    <div class="form-group">
-                        <div id="payment-element">
-
-                            <!--Stripe.js injects the Payment Element-->
-
-                          </div>
-
-                          <button id="submit">
-
-                            <div class="spinner hidden" id="spinner"></div>
-
-                            <span id="button-text">Pay now</span>
-
-                          </button>
-
-                          <div id="payment-message" class="hidden"></div>
-                    </div>
-
-                    <div class="spacer"></div>
-
-                    <button type="submit" class="button-primary full-width">Complete Order</button>
-                </form>
-            </div>
-
-            <div class="checkout-table-container">
-                <h2>Your Order</h2>
-
-                <div class="checkout-table">
-                    @foreach (Cart::content() as $item)
+            <div class="checkout-table">
+                @foreach (Cart::content() as $item)
                     <div class="checkout-table-row">
                         <div class="checkout-table-row-left">
                             <img src="{{ $item->model->image }}" alt="item" class="checkout-table-img">
@@ -112,146 +121,122 @@
                             </div>
                         </div>
                     </div>
-                    @endforeach
-                </div>
-
-                <div class="checkout-totals">
-                    <div class="checkout-totals-left">
-                        Subtotal <br>
-                        {{-- Discount (10OFF - 10%) <br> --}}
-                        Tax <br>
-                        <span class="checkout-totals-total">Total</span>
-
-                    </div>
-
-                    <div class="checkout-totals-right">
-                        {{ presentPrice($item->subtotal) }} <br>
-                        {{-- -$750.00 <br> --}}
-                        {{ presentPrice(Cart::tax()) }} <br>
-                        <span class="checkout-totals-total">
-                            {{ presentPrice(Cart::total()) }}
-                        </span>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
+
+            <div class="checkout-totals">
+                <div class="checkout-totals-left">
+                    Subtotal <br>
+                    {{-- Discount (10OFF - 10%) <br> --}}
+                    Tax <br>
+                    <span class="checkout-totals-total">Total</span>
+
+                </div>
+
+                <div class="checkout-totals-right">
+                    {{ presentPrice($item->subtotal) }} <br>
+                    {{-- -$750.00 <br> --}}
+                    {{ presentPrice(Cart::tax()) }} <br>
+                    <span class="checkout-totals-total">
+                        {{ presentPrice(Cart::total()) }}
+                    </span>
+                </div>
+            </div>
+
         </div>
     </div>
+</div>
+
+@endsection
+
 @section('js')
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    // This is a public sample test API key.
-    // Don’t submit any personally identifiable information in requests made with this key.
-    // Sign in to see your own test API key embedded in code samples.
-    const stripe = Stripe("pk_test_51JVen0CvaRQNq9FWjLnIFnnPMlEHKQdI6S8mFEmgqdMi2S6t7QgNZEqReGAGkbjh4uTqnFfPoWk2eW8Lh4fOuzCx00gaieVfXE");
+(function(){
+    // Create a Stripe client
+    var stripe = Stripe('pk_test_51JVen0CvaRQNq9FWjLnIFnnPMlEHKQdI6S8mFEmgqdMi2S6t7QgNZEqReGAGkbjh4uTqnFfPoWk2eW8Lh4fOuzCx00gaieVfXE');
 
-    // The items the customer wants to buy
-    const items = [{ id: "xl-tshirt" }];
+    // Create an instance of Elements
+    var elements = stripe.elements();
 
-    let elements;
-
-    initialize();
-    checkStatus();
-
-    document
-    .querySelector("#payment-form")
-    .addEventListener("submit", handleSubmit);
-
-    // Fetches a payment intent and captures the client secret
-    async function initialize() {
-    const { clientSecret } = await fetch("/create.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items }),
-    }).then((r) => r.json());
-
-    elements = stripe.elements({ clientSecret });
-
-    const paymentElement = elements.create("payment");
-    paymentElement.mount("#payment-element");
-    }
-
-    async function handleSubmit(e) {
-    e.preventDefault();
-    setLoading(true);
-
-    const { error } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:4242/public/checkout.html",
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+        base: {
+        color: '#32325d',
+        lineHeight: '18px',
+        fontFamily: '"Roboto", Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+            color: '#aab7c4'
+        }
         },
+        invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+        }
+    };
+
+    // Create an instance of the card Element
+    var card = elements.create('card', {
+        style: style,
+        hidePostalCode: true
     });
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-        showMessage(error.message);
-    } else {
-        showMessage("An unexpected error occured.");
+    // Add an instance of the card Element into the `card-element` <div>
+    card.mount('#card-element');
+
+    // Handle real-time validation errors from the card Element.
+    card.addEventListener('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+        displayError.textContent = event.error.message;
+        } else {
+        displayError.textContent = '';
+        }
+    });
+
+    // Handle form submission
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Disable the submit button to prevent repeated clicks
+        document.getElementById('complete-order').disabled = true;
+
+        var options = {
+            name: document.getElementById('name_on_card').value,
+            address_line1: document.getElementById('address').value,
+            address_city: document.getElementById('city').value,
+            address_state: document.getElementById('province').value,
+            address_zip: document.getElementById('postalcode').value
+        }
+        stripe.createToken(card, options).then(function(result) {
+            if (result.error) {
+                // Inform the user if there was an error
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+
+                // Enable the submit button
+                document.getElementById('complete-order').disabled = false;
+            } else {
+                // Send the token to your server
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+    function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+        // Submit the form
+        form.submit();
     }
-
-    setLoading(false);
-    }
-
-    // Fetches the payment intent status after payment submission
-    async function checkStatus() {
-    const clientSecret = new URLSearchParams(window.location.search).get(
-        "payment_intent_client_secret"
-    );
-
-    if (!clientSecret) {
-        return;
-    }
-
-    const { paymentIntent } = await stripe.retrievePaymentIntent(clientSecret);
-
-    switch (paymentIntent.status) {
-        case "succeeded":
-        showMessage("Payment succeeded!");
-        break;
-        case "processing":
-        showMessage("Your payment is processing.");
-        break;
-        case "requires_payment_method":
-        showMessage("Your payment was not successful, please try again.");
-        break;
-        default:
-        showMessage("Something went wrong.");
-        break;
-    }
-    }
-
-    // ------- UI helpers -------
-
-    function showMessage(messageText) {
-    const messageContainer = document.querySelector("#payment-message");
-
-    messageContainer.classList.remove("hidden");
-    messageContainer.textContent = messageText;
-
-    setTimeout(function () {
-        messageContainer.classList.add("hidden");
-        messageText.textContent = "";
-    }, 4000);
-    }
-
-    // Show a spinner on payment submission
-    function setLoading(isLoading) {
-    if (isLoading) {
-        // Disable the button and show a spinner
-        document.querySelector("#submit").disabled = true;
-        document.querySelector("#spinner").classList.remove("hidden");
-        document.querySelector("#button-text").classList.add("hidden");
-    } else {
-        document.querySelector("#submit").disabled = false;
-        document.querySelector("#spinner").classList.add("hidden");
-        document.querySelector("#button-text").classList.remove("hidden");
-    }
-    }
+})();
 </script>
-@endsection
 @endsection
