@@ -1,3 +1,8 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
 html,
 body,
 div,
@@ -960,6 +965,7 @@ footer {
 .footer-content ul {
   display: flex;
   width: 30%;
+  justify-content: space-between;
 }
 
 .footer-content a {
@@ -1540,3 +1546,4 @@ h1.checkout-heading {
   max-width: 140px;
   margin-right: 24px;
 }
+

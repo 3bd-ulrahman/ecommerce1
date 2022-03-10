@@ -20,7 +20,10 @@
         <div>
 
         @if (Cart::count() > 0)
-        <h2>{{ Cart::content()->count() }} item(s) in Shopping Cart</h2>
+        <h2 style="margin-bottom: 0px">
+            {{ Cart::content()->count() }} product(s) in Shopping Cart
+        </h2>
+        <h2>{{ Cart::count() }} item(s) in Shopping Cart</h2>
 
         <div class="cart-table">
             @foreach (Cart::content() as $item)
@@ -58,17 +61,15 @@
                         </form>
                     </div>
                     <div>
-                        <select class="quantity" value="{{ $item->qty }}">
-                            {{-- <option selected="">1</option>
-                                --}}
+                        <select class="quantity" data-id="{{ $item->rowId }}" data-qty={{ $item->qty }}>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
-                            <option value="4">4</option>
+                            <option>4</option>
                             <option>5</option>
                         </select>
                     </div>
-                    <div>{{ $item->model->price }}</div>
+                    <div>{{ presentPrice($item->subtotal) }}</div>
                 </div>
             </div>
             @endforeach
@@ -185,5 +186,34 @@
 
     @include('partials.might-like')
 
+@section('js')
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+    (function () {
+        const classname = document.querySelectorAll('.quantity');
+
+        Array.from(classname).forEach(function (element) {
+
+            // set value of option eqaul cart quantity
+            let qty = element.getAttribute('data-qty');
+            element.options.selectedIndex = qty - 1;
+
+            element.addEventListener('change', function () {
+
+                const id = element.getAttribute('data-id');
+
+                axios.patch(`cart/${id}`, {
+                    quantity: this.value
+                }).then(function (response) {
+                    window.location.href = '{{ route('cart.index') }}';
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+            });
+        });
+    })();
+</script>
+@endsection
 
 @endsection
