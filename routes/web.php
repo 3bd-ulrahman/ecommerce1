@@ -3,6 +3,9 @@
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Route;
 
+define('PAGINATION', 9);
+
+
 Route::get('/', 'LandingPageController@index')->name('landing-page');
 
 Route::prefix('shop')->name('shop.')->group(function () {

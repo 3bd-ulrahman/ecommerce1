@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html>
 <script>
 function toggleField(hideObj,showObj){
@@ -31,4 +31,5 @@ Browser:
 
     <input type="submit" value="Submit">
 </form>
-</body>
+</body> --}}
+

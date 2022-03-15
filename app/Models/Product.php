@@ -3,11 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Category;
 
 class Product extends Model
 {
     protected $table = 'products';
+    protected $fillable = [
+        'name', 'slug', 'details', 'description', 'price', 'image'
+    ];
+
+    // realtionShips
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'category_product');
+    }
 
     // Accessors
     public function getPriceAttribute($value)
@@ -17,11 +26,11 @@ class Product extends Model
 
     public function getImageAttribute($value)
     {
-        return asset($value);
+        return asset('img/' . $value);
     }
 
     // Scopes
-    public function scopeRandomProduct($query, $number)
+    public function scopeRandom($query, $number)
     {
         return $query->inRandomOrder()->take($number);
     }

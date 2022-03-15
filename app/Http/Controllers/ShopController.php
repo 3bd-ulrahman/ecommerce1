@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,10 +11,27 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $products = Product::randomProduct(12)->get();
+        $categories = Category::all();
+
+        if (request()->category) {
+            $products = Product::with('categories')->whereHas('categories', function ($query) {
+                $query->where('slug', request()->category);
+            });
+        } else {
+            $products = Product::where('featured', true);
+        }
+
+        if (request()->sort == 'low_high') {
+            $products = $products->orderBy('price')->paginate(9);
+        } elseif (request()->sort == 'high_low') {
+            $products = $products->orderBy('price', 'DESC')->paginate(9);
+        } else {
+            $products = $products->paginate(9);
+        }
 
         return view('shop.index', [
-            'products' => $products
+            'products' => $products,
+            'categories' => $categories,
         ]);
     }
 
@@ -21,7 +39,7 @@ class ShopController extends Controller
     {
         $product = Product::where('slug', $slug)->first();
         $mightAlsoLike = Product::where('slug', '!=', $slug)
-            ->randomProduct(4)
+            ->random(4)
             ->get();
 
         return view('shop.show', [

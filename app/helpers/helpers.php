@@ -15,3 +15,10 @@ if (! function_exists('presentPrice')) {
         return sprintf('$%0.2f', $value);
     }
 }
+
+if (!function_exists('setActiveCategory')) {
+    function setActiveCategory($categoey, $output = 'active')
+    {
+        return request()->category == $categoey ? $output : '';
+    }
+}

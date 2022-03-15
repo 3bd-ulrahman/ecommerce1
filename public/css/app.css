@@ -965,7 +965,6 @@ footer {
 .footer-content ul {
   display: flex;
   width: 30%;
-  justify-content: space-between;
 }
 
 .footer-content a {

@@ -12,85 +12,91 @@ class ProductsSeeder extends Seeder
      */
     public function run()
     {
-        Product::create([
-            'name' => 'MacBook Pro',
-            'slug' => 'macbook-pro',
-            'details' => '15 inch, 1TB SSD, 32GB RAM',
-            'price' => 2499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/macbook-pro.jpg'
-        ]);
+        // Laptops
+        for ($i = 1; $i <= 30; $i++) {
+            Product::create([
+                'name' => 'Laptop ' . $i,
+                'slug' => 'laptop-' . $i,
+                'details' => [13, 14, 15][array_rand([13, 14, 15])] . ' inch, ' . [1, 2, 3][array_rand([1, 2, 3])] . ' TB SSD, 32GB RAM',
+                'price' => rand(149999, 249999),
+                'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
+                'image' => 'products/laptop-'.$i.'.jpg',
+            ])->categories()->attach(1);
+        }
 
-        Product::create([
-            'name' => 'Laptop 2',
-            'slug' => 'laptop-2',
-            'details' => '15 inch, 1TB SSD, 16GB RAM',
-            'price' => 1499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/laptop-2.jpg'
-        ]);
+        $product = Product::find(1);
+        $product->categories()->attach(2);
 
-        Product::create([
-            'name' => 'Laptop 3',
-            'slug' => 'laptop-3',
-            'details' => '13 inch, 1TB SSD, 16GB RAM',
-            'price' => 1499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/laptop-3.jpg'
-        ]);
+        // Desktops
+        for ($i = 1; $i <= 9; $i++) {
+            Product::create([
+                'name' => 'Desktop ' . $i,
+                'slug' => 'desktop-' . $i,
+                'details' => [24, 25, 27][array_rand([24, 25, 27])] . ' inch, ' . [1, 2, 3][array_rand([1, 2, 3])] . ' TB SSD, 32GB RAM',
+                'price' => rand(249999, 449999),
+                'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
+                'image' => 'products/desktop-'.$i.'.jpg',
+            ])->categories()->attach(2);
+        }
 
-        Product::create([
-            'name' => 'Laptop 4',
-            'slug' => 'laptop-4',
-            'details' => '15 inch, 1TB SSD, 16GB RAM',
-            'price' => 1499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/laptop-4.jpg'
-        ]);
+        // Phones
+        for ($i = 1; $i <= 9; $i++) {
+            Product::create([
+                'name' => 'Phone ' . $i,
+                'slug' => 'phone-' . $i,
+                'details' => [16, 32, 64][array_rand([16, 32, 64])] . 'GB, 5.' . [7, 8, 9][array_rand([7, 8, 9])] . ' inch screen, 4GHz Quad Core',
+                'price' => rand(79999, 149999),
+                'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
+                'image' => 'products/phone-'.$i.'.jpg',
+            ])->categories()->attach(3);
+        }
 
-        Product::create([
-            'name' => 'Laptop 5',
-            'slug' => 'laptop-5',
-            'details' => '15 inch, 1TB SSD, 16GB RAM',
-            'price' => 1499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/laptop-5.jpg'
-        ]);
+        // Tablets
+        for ($i = 1; $i <= 9; $i++) {
+            Product::create([
+                'name' => 'Tablet ' . $i,
+                'slug' => 'tablet-' . $i,
+                'details' => [16, 32, 64][array_rand([16, 32, 64])] . 'GB, 5.' . [10, 11, 12][array_rand([10, 11, 12])] . ' inch screen, 4GHz Quad Core',
+                'price' => rand(49999, 149999),
+                'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
+                'image' => 'products/tablet-'.$i.'.jpg',
+            ])->categories()->attach(4);
+        }
 
-        Product::create([
-            'name' => 'Laptop 6',
-            'slug' => 'laptop-6',
-            'details' => '15 inch, 1TB SSD, 16GB RAM',
-            'price' => 1499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/laptop-6.jpg'
-        ]);
+        // TVs
+        for ($i = 1; $i <= 9; $i++) {
+            Product::create([
+                'name' => 'TV ' . $i,
+                'slug' => 'tv-' . $i,
+                'details' => [46, 50, 60][array_rand([7, 8, 9])] . ' inch screen, Smart TV, 4K',
+                'price' => rand(79999, 149999),
+                'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
+                'image' => 'products/tv-'.$i.'.jpg',
+            ])->categories()->attach(5);
+        }
 
-        Product::create([
-            'name' => 'Laptop 7',
-            'slug' => 'laptop-7',
-            'details' => '15 inch, 1TB SSD, 16GB RAM',
-            'price' => 1499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/laptop-7.jpg'
-        ]);
+        // Cameras
+        for ($i = 1; $i <= 9; $i++) {
+            Product::create([
+                'name' => 'Camera ' . $i,
+                'slug' => 'camera-' . $i,
+                'details' => 'Full Frame DSLR, with 18-55mm kit lens.',
+                'price' => rand(79999, 249999),
+                'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
+                'image' => 'products/camera-'.$i.'.jpg',
+            ])->categories()->attach(6);
+        }
 
-        Product::create([
-            'name' => 'Laptop 8',
-            'slug' => 'laptop-8',
-            'details' => '15 inch, 1TB SSD, 16GB RAM',
-            'price' => 1499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/laptop-8.jpg'
-        ]);
-
-        Product::create([
-            'name' => 'Laptop 9',
-            'slug' => 'laptop-9',
-            'details' => '15 inch, 1TB SSD, 16GB RAM',
-            'price' => 1499.99,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
-            'image' => '/img/products/laptop-9.jpg'
-        ]);
+        // Appliances
+        for ($i = 1; $i <= 9; $i++) {
+            Product::create([
+                'name' => 'Appliance ' . $i,
+                'slug' => 'appliance-' . $i,
+                'details' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis, dolorum!',
+                'price' => rand(79999, 149999),
+                'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
+                'image' => 'products/appliance-'.$i.'.jpg',
+            ])->categories()->attach(7);
+        }
     }
 }
