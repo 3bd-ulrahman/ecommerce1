@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CouponController;
+use App\Models\Product;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +31,11 @@ Route::prefix('saveForLater')->name('saveForLater.')->group(function () {
 });
 
 
+Route::prefix('coupon')->name('coupon.')->group(function () {
+    Route::post('/', [CouponController::class, 'store'])->name('store');
+    Route::delete('/', [CouponController::class, 'destroy'])->name('destroy');
+});
+
 Route::middleware('checkout')->prefix('checkout')->name('checkout.')->group(function () {
     Route::get('/', 'CheckoutContoller@index')->name('index');
     Route::post('/store', 'CheckoutContoller@store')->name('store');
@@ -39,5 +46,5 @@ Route::view('/thankyou', 'pages/thankyou');
 
 
 Route::get('test', function () {
-    return view('test');
+    return collect(session()->get('coupon'))->toJson();
 });

@@ -50,7 +50,7 @@
                         <label for="province">Province</label>
                         <input type="text" class="form-control" id="province" name="province" value="{{ old('province') }}" required>
                     </div>
-                </div> <!-- end half-form -->
+                </div>
 
                 <div class="half-form">
                     <div class="form-group">
@@ -98,19 +98,19 @@
             <h2>Your Order</h2>
 
             <div class="checkout-table">
-                @foreach (Cart::content() as $item)
+                @foreach (Cart::content()->values() as $index => $item)
                     <div class="checkout-table-row">
                         <div class="checkout-table-row-left">
-                            <img src="{{ $item->model->image }}" alt="item" class="checkout-table-img">
+                            <img src="{{ $cart[$index]->image }}" alt="item" class="checkout-table-img">
                             <div class="checkout-item-details">
                                 <div class="checkout-table-item">
-                                    {{ $item->model->name }}
+                                    {{ $cart[$index]->name }}
                                 </div>
                                 <div class="checkout-table-description">
-                                    {{ $item->model->details }}
+                                    {{ $cart[$index]->details }}
                                 </div>
                                 <div class="checkout-table-price">
-                                    {{ $item->model->price }}
+                                    {{ $cart[$index]->price }}
                                 </div>
                             </div>
                         </div>
@@ -127,21 +127,51 @@
             <div class="checkout-totals">
                 <div class="checkout-totals-left">
                     Subtotal <br>
-                    {{-- Discount (10OFF - 10%) <br> --}}
+                    @if (session()->has('coupon'))
+                        Discount ({{ session()->get('coupon')['code'] }})
+                        <form action="{{ route('coupon.destroy') }}" method="post" style="display: inline">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit" style="font-size: 14px">Remove</button>
+                        </form>
+                        <br>
+                        <hr>
+                        New Subtotal <br>
+                    @endif
                     Tax <br>
                     <span class="checkout-totals-total">Total</span>
-
                 </div>
 
                 <div class="checkout-totals-right">
                     {{ presentPrice($item->subtotal) }} <br>
-                    {{-- -$750.00 <br> --}}
-                    {{ presentPrice(Cart::tax()) }} <br>
+
+                    @if (session()->has('coupon'))
+                        -{{ presentPrice($discount) }} <br>
+                        <hr>
+                        {{ presentPrice($newSubtotal) }} <br>
+                    @endif
+
+                    {{ presentPrice($newTax) }} <br>
+
                     <span class="checkout-totals-total">
-                        {{ presentPrice(Cart::total()) }}
+                        {{ presentPrice($newTotal) }}
                     </span>
                 </div>
             </div>
+
+            @if (! session()->has('coupon'))
+                <a href="#" class="have-code">Have a Code?</a>
+
+                <div class="have-code-container">
+                    <form action="{{ route('coupon.store') }}" method="POST">
+                        @csrf
+
+                        <input type="text" name="coupon_code" id="coupon_code">
+                        <button type="submit" class="button button-plain">Apply</button>
+                    </form>
+                </div>
+            @endif
 
         </div>
     </div>

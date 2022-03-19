@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckoutRequest;
+use App\Models\Product;
 use Cartalyst\Stripe\Exception\CardErrorException;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Gloudemans\Shoppingcart\Facades\Cart;
@@ -12,12 +13,21 @@ class CheckoutContoller extends Controller
 {
     public function index()
     {
-        return view('pages.checkout');
-    }
+        $ids = [];
+        foreach (Cart::content() as $item) {
+            array_push($ids, $item->id);
+        }
+        $cart = Product::whereIn('id', $ids)->get();
 
-    public function create()
-    {
-        //
+        $getNumbers = $this->getNumbers();
+
+        return view('pages.checkout', [
+            'cart' => $cart,
+            'discount' => $getNumbers->get('discount'),
+            'newSubtotal' => $getNumbers->get('newSubtotal'),
+            'newTax' => $getNumbers->get('newTax'),
+            'newTotal' => $getNumbers->get('newTotal'),
+        ]);
     }
 
     public function store(CheckoutRequest $request)
@@ -28,7 +38,7 @@ class CheckoutContoller extends Controller
 
         try {
             $charge = Stripe::charges()->create([
-                'amount' => Cart::total(),
+                'amount' => $this->getNumbers()->get('newTotal'),
                 'currency' => 'USD',
                 'source' => $request->stripeToken,
                 'description' => 'Order',
@@ -36,10 +46,12 @@ class CheckoutContoller extends Controller
                 'metadata' => [
                     'content' => $content,
                     'quantity' => Cart::instance('default')->count(),
+                    'coupon' => collect(session()->get('coupon'))->toJson()
                 ],
             ]);
 
             Cart::instance('default')->destroy();
+            session()->forget('coupon');
 
             return redirect('/thankyou');
         } catch (CardErrorException $e) {
@@ -48,23 +60,20 @@ class CheckoutContoller extends Controller
         }
     }
 
-    public function show($id)
+    private function getNumbers()
     {
-        //
-    }
+        $tax = config('cart.tax') / 100;
+        $discount = session()->get('coupon')['discount'] ?? 0;
+        $newSubtotal = (Cart::subtotal() - $discount);
+        $newTax = $newSubtotal * $tax;
+        $newTotal = $newSubtotal * (1 + $tax);
 
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        return collect([
+            'tax' => $tax,
+            'discount' => $discount,
+            'newSubtotal' => $newSubtotal,
+            'newTax' => $newTax,
+            'newTotal' => $newTotal,
+        ]);
     }
 }

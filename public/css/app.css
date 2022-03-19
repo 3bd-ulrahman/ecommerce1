@@ -1546,3 +1546,42 @@ h1.checkout-heading {
   margin-right: 24px;
 }
 
+
+
+
+
+.checkout-section .have-code {
+    display: block;
+    margin: 14px 0;
+}
+
+.checkout-section .have-code-container {
+    border: 1px solid #919191;
+    padding: 16px;
+}
+
+.checkout-section .have-code-container form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
+.checkout-section .have-code-container input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.checkout-section .have-code-container input[type="submit"] {
+    background: white;
+    border: 1px solid #919191;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.checkout-section .have-code-container input[type="submit"]:hover {
+    background: #212121;
+}
