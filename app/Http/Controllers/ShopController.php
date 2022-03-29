@@ -18,7 +18,7 @@ class ShopController extends Controller
                 $query->where('slug', request()->category);
             });
         } else {
-            $products = Product::where('featured', true);
+            $products = Product::query()->inRandomOrder()->take(9);
         }
 
         if (request()->sort == 'low_high') {

@@ -19,18 +19,27 @@
     </div>
 
     <div class="product-section container">
-        <div class="product-section-image">
-            <img src="{{ asset($product->image) }}" alt="product">
+        <div>
+            <div class="product-section-image">
+                <img src="{{ asset($product->image) }}" alt="product">
+            </div>
+            <div>
+                @if ($product->images)
+                    @foreach ($product->images as $image)
+                        <img src="{{ $image }}" alt="Product">
+                    @endforeach
+                @endif
+            </div>
         </div>
         <div class="product-section-information">
             <h1 class="product-section-title">{{ $product->name }}</h1>
             <div class="product-section-subtitle">
-                {{ $product->details }}
+                {!! $product->details !!}
             </div>
             <div class="product-section-price">{{ $product->price }}</div>
 
             <p>
-                {{ $product->description }}
+                {!! $product->description !!}
             </p>
 
             <p>&nbsp;</p>

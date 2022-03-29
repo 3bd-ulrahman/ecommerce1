@@ -9,8 +9,7 @@ class LandingPageController extends Controller
 {
     public function index()
     {
-        $products = Product::where('featured', true)
-        ->inRandomOrder()
+        $products = Product::inRandomOrder()
             ->take(8)
             ->get();
 

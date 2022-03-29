@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->float('price');
             $table->string('image');
+            $table->text('images')->nullable();
             $table->boolean('featured')->default(false);
             $table->timestamps();
         });

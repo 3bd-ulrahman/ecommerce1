@@ -48,3 +48,12 @@ if (!function_exists('getNumbers')) {
         ]);
     }
 }
+
+if (! function_exists('productImage')) {
+    function productImage($path)
+    {
+        return file_exists('storage/'.$path) ?
+            asset('storage/'.$path) :
+            asset('img/no-found.jpg');
+    }
+}
