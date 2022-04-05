@@ -38,7 +38,7 @@
     @include('partials.footer')
 
     @yield('js')
-
+    @stack('js')
 
 </body>
 </html>

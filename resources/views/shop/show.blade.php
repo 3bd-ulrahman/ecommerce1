@@ -21,12 +21,21 @@
     <div class="product-section container">
         <div>
             <div class="product-section-image">
-                <img src="{{ asset($product->image) }}" alt="product">
+                <img src="{{ asset($product->image) }}"
+                    alt="product"
+                    id="currentImage"
+                    class="active"
+                >
             </div>
-            <div>
+            <div class="product-section-images">
+                <div class="product-section-thumbnail selected">
+                    <img src="{{ $product->image }}" alt="Product">
+                </div>
                 @if ($product->images)
-                    @foreach ($product->images as $image)
+                    @foreach ($product->images as $index => $image)
+                    <div class="product-section-thumbnail">
                         <img src="{{ $image }}" alt="Product">
+                    </div>
                     @endforeach
                 @endif
             </div>
@@ -60,3 +69,28 @@
 
 
 @endsection
+
+@push('js')
+<script>
+    (function () {
+        const currentImage = document.querySelector('#currentImage');
+        const images = document.querySelectorAll('.product-section-thumbnail');
+
+        images.forEach((element) => element.addEventListener('click', thumbnailClick));
+
+        function thumbnailClick(e) {
+            currentImage.classList.remove('active');
+
+            currentImage.addEventListener('transitionend', () => {
+                currentImage.src = this.querySelector('img').src;
+                currentImage.classList.add('active');
+            });
+
+            images.forEach(function (element) {
+                element.classList.remove('selected');
+            });
+            this.classList.add('selected');
+        }
+    })();
+</script>
+@endpush
