@@ -12,17 +12,14 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!-- Styles -->
-	<link rel="stylesheet" href="{{ asset('css/app.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/custom/app.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 </head>
 <body>
 
 	<header class="with-background">
 
-		<nav class="top-nav container">
-			<div class="logo">Laravel Ecommerce</div>
-			{{ menu('main', 'partials.menus.main') }}
-		</nav>
+        @include('partials.nav')
 
 		<div class="hero container">
 			<div class="hero-copy">

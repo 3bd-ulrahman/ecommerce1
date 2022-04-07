@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\CouponController;
-use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
+use Illuminate\Support\Facades\Auth;
 
 define('PAGINATION', 9);
 
@@ -36,7 +36,7 @@ Route::prefix('coupon')->name('coupon.')->group(function () {
 	Route::delete('/', [CouponController::class, 'destroy'])->name('destroy');
 });
 
-Route::middleware('checkout')->prefix('checkout')->name('checkout.')->group(function () {
+Route::middleware(['checkout', 'auth'])->prefix('checkout')->name('checkout.')->group(function () {
 	Route::get('/', 'CheckoutContoller@index')->name('index');
 	Route::post('/store', 'CheckoutContoller@store')->name('store');
 });
@@ -46,8 +46,7 @@ Route::view('/thankyou', 'pages/thankyou');
 
 
 Route::get('test', function () {
-    $images = Product::query()->latest()->pluck('images')->first();
-    return Voyager::image($images);
+
 });
 
 
@@ -55,3 +54,7 @@ Route::get('test', function () {
 Route::group(['prefix' => 'admin'], function () {
 	Voyager::routes();
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
