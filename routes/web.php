@@ -10,6 +10,7 @@ define('PAGINATION', 9);
 
 Route::get('/', 'LandingPageController@index')->name('landing-page');
 
+
 Route::prefix('shop')->name('shop.')->group(function () {
 	Route::get('/', 'ShopController@index')->name('index');
 	Route::get('/{product}', 'ShopController@show')->name('show');
@@ -36,19 +37,19 @@ Route::prefix('coupon')->name('coupon.')->group(function () {
 	Route::delete('/', [CouponController::class, 'destroy'])->name('destroy');
 });
 
-Route::middleware(['checkout', 'auth'])->prefix('checkout')->name('checkout.')->group(function () {
-	Route::get('/', 'CheckoutContoller@index')->name('index');
-	Route::post('/store', 'CheckoutContoller@store')->name('store');
-});
+
+Route::get('/checkout', 'CheckoutContoller@index')
+    ->middleware(['checkout', 'auth'])
+    ->name('checkout.index');
+
+Route::get('/guestCheckout', 'CheckoutContoller@index')
+    ->middleware(['checkout', 'guest'])
+    ->name('guestCheckout.index');
+
+Route::post('/checkout/store', 'CheckoutContoller@store')->name('checkout.store');
 
 
 Route::view('/thankyou', 'pages/thankyou');
-
-
-Route::get('test', function () {
-
-});
-
 
 
 Route::group(['prefix' => 'admin'], function () {
@@ -58,3 +59,8 @@ Route::group(['prefix' => 'admin'], function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('test', function () {
+
+});

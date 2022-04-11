@@ -29,13 +29,22 @@
 
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input class="form-control"
-                        type="email"
-                        id="email"
-                        name="email"
-                        value="{{ auth()->user()->email }}"
-                        readonly
-                    >
+                    @auth
+                        <input class="form-control"
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ auth()->user()->email }}"
+                            readonly
+                        >
+                    @else
+                        <input class="form-control"
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                        >
+                    @endauth
                 </div>
 
                 <div class="form-group">
