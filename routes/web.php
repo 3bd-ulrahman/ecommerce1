@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\CouponController;
+use App\Models\Product;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 define('PAGINATION', 9);
 
@@ -62,5 +65,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('test', function () {
+    $produtc = Product::latest()->first();
 
+    var_dump($produtc->categories);
 });

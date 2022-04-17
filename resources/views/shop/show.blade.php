@@ -32,9 +32,9 @@
                     <img src="{{ $product->image }}" alt="Product">
                 </div>
                 @if ($product->images)
-                    @foreach ($product->images as $index => $image)
+                    @foreach (json_decode($product->images, true) as $image)
                     <div class="product-section-thumbnail">
-                        <img src="{{ $image }}" alt="Product">
+                        <img src="{{ asset('storage/'.$image) }}" alt="Product">
                     </div>
                     @endforeach
                 @endif
