@@ -24,6 +24,7 @@ class ProductsSeeder extends Seeder
                 'price' => rand(149999, 249999),
                 'description' => 'Lorem ' . $i . ' ipsum dolor sit amet, consectetur adipisicing elit. Ipsum temporibus iusto ipsa, asperiores voluptas unde aspernatur praesentium in? Aliquam, dolore!',
                 'image' => "products/$date/laptop-$i.jpg",
+                'images' => "[\"products/{$date}/laptop-2.jpg\", \"products/{$date}/laptop-3.jpg\", \"products/{$date}/laptop-4.jpg\"]",
             ])->categories()->attach(1);
         }
 
@@ -101,5 +102,8 @@ class ProductsSeeder extends Seeder
                 'image' => "products/$date/appliance-$i.jpg",
             ])->categories()->attach(7);
         }
+
+        // Select random entries to be featured
+        Product::whereIn('id', [1, 12, 22, 31, 41, 43, 47, 51, 53,61, 69, 73, 80])->update(['featured' => true]);
     }
 }

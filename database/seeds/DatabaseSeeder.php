@@ -15,8 +15,12 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductsSeeder::class);
         $this->call(CouponsSeeder::class);
 
-        $this->call(VoyagerDatabaseSeeder::class);
+        // this is what come with voyager
+        // $this->call(VoyagerDatabaseSeeder::class);
 
+        // this is custom for voyager
+        $this->call(CustomVoyager::class);
 
+        $this->call(UsersTableSeeder::class);
     }
 }

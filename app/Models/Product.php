@@ -13,9 +13,6 @@ class Product extends Model
     protected $fillable = [
         'name', 'slug', 'details', 'description', 'price', 'image', 'images'
     ];
-    // protected $casts = [
-    //     'images' => 'array'
-    // ];
 
     // realtionShips
     public function categories()

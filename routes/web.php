@@ -65,7 +65,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('test', function () {
-    $produtc = Product::latest()->first();
+    $date = Carbon::now()->format('FY');
 
-    var_dump($produtc->categories);
+    $images = "[\"product/$date\"]";
+
+    // "[\"products\/{$date}\/laptop-2.jpg\",]"
+    $images1 = "[\"products/$date/laptop-2.jpg\", \"Abdulrahman\"]";
+    echo $images1;
+
+    dd(json_decode($images1, true));
 });
