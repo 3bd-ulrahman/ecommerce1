@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
@@ -37,7 +38,13 @@ class ShopController extends Controller
 
     public function show($slug)
     {
-        $product = Product::where('slug', $slug)->first();
+        $asset = asset('storage/');
+
+        $product = Product::query()->withoutGlobalScope('accessor')
+            ->select('*', DB::raw("CONCAT('$asset/', image) as image"))
+            ->where('slug', $slug)
+            ->first();
+
         $mightAlsoLike = Product::where('slug', '!=', $slug)
             ->random(4)
             ->get();

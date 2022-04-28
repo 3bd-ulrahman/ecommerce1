@@ -1,12 +1,9 @@
 <?php
 
 use App\Http\Controllers\CouponController;
-use App\Models\Product;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 define('PAGINATION', 9);
 
@@ -65,13 +62,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('test', function () {
-    $date = Carbon::now()->format('FY');
 
-    $images = "[\"product/$date\"]";
-
-    // "[\"products\/{$date}\/laptop-2.jpg\",]"
-    $images1 = "[\"products/$date/laptop-2.jpg\", \"Abdulrahman\"]";
-    echo $images1;
-
-    dd(json_decode($images1, true));
 });

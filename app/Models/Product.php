@@ -6,43 +6,32 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Gloudemans\Shoppingcart\Contracts\Buyable;
 
-class Product extends Model
+class Product extends Model implements Buyable
 {
     protected $table = 'products';
     protected $fillable = [
         'name', 'slug', 'details', 'description', 'price', 'image', 'images'
     ];
 
+    public function getBuyableIdentifier($options = null) {
+        return $this->id;
+    }
+
+    public function getBuyableDescription($options = null) {
+        return $this->name;
+    }
+
+    public function getBuyablePrice($options = null) {
+        return $this->price;
+    }
+
     // realtionShips
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_product');
     }
-
-    // Accessors
-    // public function getPriceAttribute($value)
-    // {
-    //     return sprintf('$%0.2f', $value);
-    // }
-
-    // public function getImageAttribute($value)
-    // {
-    //     return file_exists('storage/'.$value) ?
-    //         asset('storage/'.$value) :
-    //         asset('img/not-found.jpg');
-    // }
-
-    // public function getImagesAttribute($images)
-    // {
-    //     if ($images) {
-    //         $images = json_decode($images, true);
-    //         foreach ($images as $key => $image) {
-    //             $images[$key] = asset('storage/'.$image);
-    //         }
-    //         return $images;
-    //     }
-    // }
 
     // Mutators
     // public function setImageAttribute($value)
