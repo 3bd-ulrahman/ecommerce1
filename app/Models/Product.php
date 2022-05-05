@@ -6,26 +6,32 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use Gloudemans\Shoppingcart\Contracts\Buyable;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
-class Product extends Model implements Buyable
+class Product extends Model
 {
+    use SearchableTrait;
+
     protected $table = 'products';
     protected $fillable = [
         'name', 'slug', 'details', 'description', 'price', 'image', 'images'
     ];
 
-    public function getBuyableIdentifier($options = null) {
-        return $this->id;
-    }
+    protected $searchable = [
+        /**
+         * Columns and their priority in search results.
+         * Columns with higher values are more important.
+         * Columns with equal values have equal importance.
+         *
+         * @var array
+         */
+        'columns' => [
+            'products.name' => 10,
+            'products.details' => 5,
+            'products.description' => 2,
+        ],
+    ];
 
-    public function getBuyableDescription($options = null) {
-        return $this->name;
-    }
-
-    public function getBuyablePrice($options = null) {
-        return $this->price;
-    }
 
     // realtionShips
     public function categories()

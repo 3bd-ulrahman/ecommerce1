@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<!-- Styles -->
-	<link rel="stylesheet" href="{{ asset('css/custom/app.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/front/app.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 </head>
 <body>
@@ -110,7 +110,7 @@
 					<div class="blog-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi, tenetur numquam ipsam reiciendis.</div>
 				</div>
 			</div>
-		</div> <!-- end container -->
+		</div>
 	</div>
 
 	@include('partials.footer')

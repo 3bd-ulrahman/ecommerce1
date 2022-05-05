@@ -63,11 +63,12 @@ class ShopController extends Controller
 
         $query = $request->input('query');
 
-        $products = Product::query()->when($query, function ($q) use($query) {
-            return $q->where('name', 'like', "%$query%")
-                ->orWhere('details', 'like', "%$query%")
-                ->orWhere('description', 'like', "%$query%");
-        })->paginate(PAGINATION);
+        DB::statement("SET sql_mode = '' ");
+        $products = Product::withoutGlobalScope('accessor')
+            ->select('*',DB::raw("CONCAT(price, '$') as price"))
+            ->when($query, function ($q) use($query) {
+                $q->search($query, 0);
+            })->paginate(PAGINATION);
 
         return view('pages.search-results', compact('products'));
     }
