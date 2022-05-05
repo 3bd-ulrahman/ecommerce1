@@ -1,5 +1,6 @@
 @php
     $dir = (App::getLocale() == 'ar') ? 'topLeft' : 'topRight';
+    $timeout = 2500;
 @endphp
 
 @if (session('success'))
@@ -8,7 +9,7 @@
             type: 'info',
             layout: "<?php echo $dir; ?>",
             text: "{{ session('success') }}",
-            timeout: 2000,
+            timeout: {{ $timeout }},
             killer: true
         }).show();
     </script>
@@ -21,21 +22,10 @@
             type: 'error',
             layout: "<?php echo $dir; ?>",
             text: "{{ session('error') }}",
-            timeout: 2000,
+            timeout: {{ $timeout }},
             killer: true
         }).show();
     </script>
 @endif
 
-@if (count($errors) > 0)
-    <script>
-        new Noty({
-            type: 'error',
-            layout: "<?php echo $dir; ?>",
-            text: "Abdulrahman",
-            text:{{ $errors->first() }},
-            timeout: 2000,
-            killer: true
-        }).show();
-    </script>
-@endif
+

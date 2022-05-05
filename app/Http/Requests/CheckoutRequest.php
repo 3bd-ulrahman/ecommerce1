@@ -37,8 +37,7 @@ class CheckoutRequest extends FormRequest
         $loginRoute = route('login');
 
         return [
-            'email.unique' => "you already have an account with this email. please
-                <a href='${loginRoute}'>login</a> to continue."
+            'email.unique' => "you already have an account with this email. please <a href='${loginRoute}'>login</a> to continue."
         ];
     }
 }

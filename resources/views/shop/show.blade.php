@@ -2,21 +2,15 @@
 
 @section('title', $product->name)
 
-@section('extra-css')
-
+@section('breadcrumbs')
+    @component('components.breadcrumbs')
+        <a href="/">Home</a>
+        <i class="fa fa-chevron-right breadcrumb-separator"></i>
+        <span>Shop</span>
+    @endcomponent
 @endsection
 
 @section('content')
-
-    <div class="breadcrumbs">
-        <div class="container">
-            <a href="#">Home</a>
-            <i class="fa fa-chevron-right breadcrumb-separator"></i>
-            <span>Shop</span>
-            <i class="fa fa-chevron-right breadcrumb-separator"></i>
-            <span>Macbook Pro</span>
-        </div>
-    </div>
 
     <div class="product-section container">
         <div>
@@ -66,7 +60,6 @@
     </div>
 
     @include('partials.might-like')
-
 
 @endsection
 

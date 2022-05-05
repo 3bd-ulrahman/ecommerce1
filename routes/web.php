@@ -13,6 +13,7 @@ Route::get('/', 'LandingPageController@index')->name('landing-page');
 
 Route::prefix('shop')->name('shop.')->group(function () {
 	Route::get('/', 'ShopController@index')->name('index');
+	Route::get('/search', 'ShopController@search')->name('search');
 	Route::get('/{product}', 'ShopController@show')->name('show');
 });
 
@@ -62,5 +63,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('test', function () {
-
+    return view();
 });

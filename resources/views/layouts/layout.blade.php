@@ -22,7 +22,7 @@
     <script src="{{ asset('plugins/noty/noty.min.js') }}"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/custom/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/front/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
     @yield('css')
@@ -36,6 +36,10 @@
     </header>
 
     @include('partials._session')
+
+    @yield('breadcrumbs')
+
+    @include('partials._errors')
 
     @yield('content')
 

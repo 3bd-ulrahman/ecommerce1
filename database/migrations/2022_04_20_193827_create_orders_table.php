@@ -20,19 +20,19 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('cascade')->onDelete('set null');
 
-            $table->string('billing_email')->nullable();
-            $table->string('billing_name')->nullable();
-            $table->string('billing_address')->nullable();
-            $table->string('billing_city')->nullable();
-            $table->string('billing_province')->nullable();
-            $table->string('billing_postalcode')->nullable();
-            $table->string('billing_phone')->nullable();
-            $table->string('billing_name_on_card')->nullable();
-            $table->float('billing_discount')->default(0);
-            $table->string('billing_discount_code')->nullable();
-            $table->float('billing_subtotal');
-            $table->float('billing_tax');
-            $table->float('billing_total');
+            $table->string('email')->nullable();
+            $table->string('name')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
+            $table->string('postalcode')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('name_on_card')->nullable();
+            $table->float('discount')->default(0);
+            $table->string('discount_code')->nullable();
+            $table->float('subtotal');
+            $table->float('tax');
+            $table->float('total');
             $table->string('payment_gateway')->default('stripe');
             $table->boolean('shipped')->default(false);
             $table->string('error')->nullable();
