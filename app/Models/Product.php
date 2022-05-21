@@ -7,10 +7,11 @@ use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Laravel\Scout\Searchable;
 
 class Product extends Model
 {
-    use SearchableTrait;
+    use SearchableTrait, Searchable;
 
     protected $table = 'products';
     protected $fillable = [

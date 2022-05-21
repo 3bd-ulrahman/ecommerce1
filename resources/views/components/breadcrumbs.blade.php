@@ -1,14 +1,26 @@
-<div class="breadcrumbs">
-    <div class="breadcrumbs-container container">
-        <div>
-            {{ $slot }}
-        </div>
-        <div>
-            {{-- @include('partials.search') --}}
-            <form action="{{ route('shop.search') }}" method="GET" class="search-form">
-                <i class="fa fa-search search-icon"></i>
-                <input type="text" name="query" id="query" value="{{ request()->input('query') }}" class="search-box" placeholder="Search for product" required>
-            </form>
+<div id="app">
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-container container">
+
+            <div>
+                <a href="/">Home</a>
+                <i class="fa fa-chevron-right breadcrumb-separator"></i>
+
+                <span>{{ $breadcrumbs[0] }}</span>
+                @if (isset($breadcrumbs[1]))
+                    <i class="fa fa-chevron-right breadcrumb-separator"></i>
+                    <span>{{ $breadcrumbs[1] }}</span>
+                @endif
+            </div>
+
+            <div>
+                @include('partials.search')
+            </div>
+
         </div>
     </div>
 </div>
+
+@push('js')
+    <script type="module" src="{{ asset('js/algolia.js') }}"></script>
+@endpush

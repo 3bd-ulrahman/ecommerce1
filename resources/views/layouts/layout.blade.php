@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
     @yield('css')
+    @stack('css')
 </head>
 <body class="@yield('body-class', '')">
 

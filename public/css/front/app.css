@@ -464,6 +464,7 @@ form button[type=submit] {
 
 .search-form {
     position: relative;
+    width: 22em;
 }
 
 .search-icon {
@@ -475,7 +476,7 @@ form button[type=submit] {
 
 .search-box {
     padding: 10px 12px 10px 34px;
-    width: 400px;
+    width: 100%;
     max-width: 100%;
     font-size: 14px;
 }

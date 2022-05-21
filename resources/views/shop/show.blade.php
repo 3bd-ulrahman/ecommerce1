@@ -3,11 +3,7 @@
 @section('title', $product->name)
 
 @section('breadcrumbs')
-    @component('components.breadcrumbs')
-        <a href="/">Home</a>
-        <i class="fa fa-chevron-right breadcrumb-separator"></i>
-        <span>Shop</span>
-    @endcomponent
+    <x-breadcrumbs :breadcrumbs="['Shop']"/>
 @endsection
 
 @section('content')
