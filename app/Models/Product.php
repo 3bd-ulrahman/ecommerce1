@@ -40,12 +40,6 @@ class Product extends Model
         return $this->belongsToMany(Category::class, 'category_product');
     }
 
-    // Mutators
-    // public function setImageAttribute($value)
-    // {
-    //     $this->attributes['image'] = substr($value, strlen(asset('storage')));
-    // }
-
     // Scopes
     public function scopeRandom($query, $number)
     {
@@ -64,5 +58,17 @@ class Product extends Model
                 CONCAT('$asset/', image) as image")
             );
         });
+    }
+
+    // scout package
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        $extraFields = [
+            'categories' => $this->categories()->pluck('name')->toArray(),
+        ];
+
+        return array_merge($array, $extraFields);
     }
 }

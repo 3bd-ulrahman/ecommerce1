@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Product;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
@@ -67,6 +68,18 @@ class ProjectInstall extends Command
             '--seed' => true,
             '--force' => true
         ]);
+
+        try {
+            $this->call('scout:flush', [
+                'model' => Product::class,
+            ]);
+
+            $this->call('scout:import', [
+                'model' => Product::class,
+            ]);
+        } catch (\Exception $e) {
+            $this->error('Algolia credentials incorrect. Check your .env file.');
+        }
 
         $this->info('Dummy data installed');
     }

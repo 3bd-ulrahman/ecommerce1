@@ -1,4 +1,4 @@
-<footer>
+<footer style="margin-top: 25px;">
     <div class="footer-content container">
 
         <div class="made-with">

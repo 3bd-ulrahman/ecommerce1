@@ -22,5 +22,5 @@
 </div>
 
 @push('js')
-    <script type="module" src="{{ asset('js/algolia.js') }}"></script>
+    <script type="module" src="{{ asset('js/algolia/algolia-autocomplete.js') }}"></script>
 @endpush

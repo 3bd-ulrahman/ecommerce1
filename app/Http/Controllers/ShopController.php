@@ -70,6 +70,11 @@ class ShopController extends Controller
                 $q->search($query, 0);
             })->paginate(PAGINATION);
 
-        return view('pages.search-results', compact('products'));
+        return view('search.search-results', compact('products'));
+    }
+
+    public function searchAlgolia()
+    {
+        return view('search.search-results-algolia');
     }
 }

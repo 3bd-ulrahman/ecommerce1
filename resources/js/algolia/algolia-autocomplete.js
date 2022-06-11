@@ -82,3 +82,10 @@ autocomplete({
   },
 });
 
+
+let search = document.getElementById('autocomplete-0-input');
+search.addEventListener('keypress', function (event) {
+    if (event.key == 'Enter') {
+    window.location.href = window.location.origin + '/shop/search-algolia?products[query]=' + search.value;
+    }
+});

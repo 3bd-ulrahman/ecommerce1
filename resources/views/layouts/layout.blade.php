@@ -22,7 +22,7 @@
     <script src="{{ asset('plugins/noty/noty.min.js') }}"></script>
 
     <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/front/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/front.css') }}">
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
     @yield('css')

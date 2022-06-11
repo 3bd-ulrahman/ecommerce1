@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CouponController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use Illuminate\Support\Facades\Auth;
@@ -12,8 +13,10 @@ Route::get('/', 'LandingPageController@index')->name('landing-page');
 
 
 Route::prefix('shop')->name('shop.')->group(function () {
+    Route::get('/search', 'ShopController@search')->name('search');
+	Route::get('/search-algolia', 'ShopController@searchAlgolia')->name('search-algolia');
+
 	Route::get('/', 'ShopController@index')->name('index');
-	Route::get('/search', 'ShopController@search')->name('search');
 	Route::get('/{product}', 'ShopController@show')->name('show');
 });
 

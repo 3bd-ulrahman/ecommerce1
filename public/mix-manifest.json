@@ -1,5 +1,6 @@
 {
-    "/js/algolia.js": "/js/algolia.js",
+    "/js/algolia/algolia-autocomplete.js": "/js/algolia/algolia-autocomplete.js",
+    "/js/algolia/algolia-instantsearch.js": "/js/algolia/algolia-instantsearch.js",
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css"
 }

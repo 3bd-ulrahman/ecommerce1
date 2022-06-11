@@ -12,5 +12,6 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .js('resources/js/algolia.js', 'public/js')
+    .js('resources/js/algolia/algolia-autocomplete.js', 'public/js/algolia')
+    .js('resources/js/algolia/algolia-instantsearch.js', 'public/js/algolia')
     .sass('resources/sass/app.scss', 'public/css');

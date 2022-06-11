@@ -1,13 +1,9 @@
 @extends('layouts.layout')
 
-@section('title', '$product->name')
+@section('title', 'Serach Results')
 
 @section('breadcrumbs')
-    @component('components.breadcrumbs')
-        <a href="/">Home</a>
-        <i class="fa fa-chevron-right breadcrumb-separator"></i>
-        <span>Shop</span>
-    @endcomponent
+    <x-breadcrumbs :breadcrumbs="['Search Results']" />
 @endsection
 
 @section('content')
